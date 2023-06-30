@@ -10,14 +10,14 @@ from sklearn.preprocessing import OneHotEncoder
 titanic_data = pd.read_csv('C:\\Users\\Harsh\\OneDrive\\Desktop\\Bharat Intern\\Titanic_dataset.csv')
 
 selected_features = ['Pclass', 'Age', 'Sex']
-X = titanic_data[selected_features]
-y = titanic_data['Survived']
+features = titanic_data[selected_features]
+target = titanic_data['Survived']
 
-missing_target_indices = y.isnull()
-X = X[~missing_target_indices]
-y = y[~missing_target_indices]
+missing_target_indices = target.isnull()
+features = features[~missing_target_indices]
+target = target[~missing_target_indices]
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+features_train, features_test, target_train, target_test = train_test_split(features, target, test_size=0.2, random_state=42)
 
 numerical_features = ['Age']
 categorical_features = ['Pclass', 'Sex']
@@ -38,9 +38,9 @@ pipeline = Pipeline(steps=[
     ('classifier', RandomForestClassifier(n_estimators=100, random_state=42))
 ])
 
-pipeline.fit(X_train, y_train)
+pipeline.fit(features_train, target_train)
 
-y_pred = pipeline.predict(X_test)
+target_pred = pipeline.predict(features_test)
 
-accuracy = accuracy_score(y_test, y_pred)
+accuracy = accuracy_score(target_test, target_pred)
 print("Accuracy:", accuracy)
